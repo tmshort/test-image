@@ -10,7 +10,7 @@ metadata:
           "metadata": {
             "labels": {
               "app.kubernetes.io/managed-by": "kustomize",
-              "app.kubernetes.io/name": "registry"
+              "app.kubernetes.io/name": "simple-bundle"
             },
             "name": "registry-sample"
           },
@@ -25,13 +25,28 @@ metadata:
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
-  description: simple-bundle
+  description: Simple Bundle
   displayName: simple-bundle
   icon:
   - base64data: ""
     mediatype: ""
   install:
     spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - authentication.k8s.io
+          resources:
+          - tokenreviews
+          verbs:
+          - create
+        - apiGroups:
+          - authorization.k8s.io
+          resources:
+          - subjectaccessreviews
+          verbs:
+          - create
+        serviceAccountName: simple-bundle-manager
       permissions:
       - rules:
         - apiGroups:
@@ -48,14 +63,25 @@ spec:
           - patch
           - delete
         - apiGroups:
-          - rbac.authorization.k8s.io
+          - coordination.k8s.io
           resources:
-          - clusterroles
+          - leases
           verbs:
           - get
           - list
           - watch
-        serviceAccountName: simple-bundle-sa-csv
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - patch
+        serviceAccountName: simple-bundle-manager
     strategy: deployment
   installModes:
   - supported: false
@@ -69,13 +95,13 @@ spec:
   keywords:
   - registry
   links:
-  - name: Registry
-    url: https://registry.domain
+  - name: simple-bundle
+    url: https://simple-bundle.domain
   maintainers:
-  - email: your@email.com
-    name: Maintainer Name
+  - email: main#simple-bundle.domain
+    name: Simple Bundle
   maturity: alpha
   provider:
-    name: Provider Name
-    url: https://your.domain
+    name: Simple Bundle
+    url: https://simple-bundle.domain
   version: 0.0.1
