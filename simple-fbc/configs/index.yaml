@@ -1,0 +1,29 @@
+{
+  "schema": "olm.package",
+  "name": "simple-bundle"
+}
+{
+  "schema": "olm.bundle",
+  "name": "simple-bundle.v0.0.1",
+  "package": "simple-bundle",
+  "image": "quay.io/tshort/simple-bundle:v0.0.1",
+  "properties": [
+    {
+      "type": "olm.package",
+      "value": {
+        "packageName": "simple-bundle",
+        "version": "0.0.1"
+      }
+    }
+  ]
+}
+{
+  "schema": "olm.channel",
+  "name": "alpha",
+  "package": "simple-bundle",
+  "entries": [
+    {
+      "name": "simple-bundle.v0.0.1"
+    }
+  ]
+}
